@@ -12,8 +12,26 @@ Create an AI-driven solution for real-time monitoring of pool lounger usage. Thi
 
 As part of the standard poolside concierge service, a pool attendant assists guests by placing a fresh towel on each lounge chair. Therefore, a sun lounger that is covered with a towel can be considered "in service" and occupied by a guest.  
 When a guest has finished using the lounger, the resort staff needs to be notified in a timely manner. At that point, the staff can clean up any towels, water bottles, or other items left behind by the departing guest.  
-To determine when a lounger is ready for cleanup, the system can analyze poolside photos captured by cameras. If a photo shows one or more loungers with towels and water bottles present, but no people or personal belongings visible, the system can flag those loungers as "awaiting cleanup."  
-The system should be configured to monitor the "awaiting cleanup" status and notify resort staff if that status persists for more than 15 minutes. This will ensure timely cleanup of vacated loungers and keep the poolside area tidy and ready for the next guests.  
+
+To determine when a lounger is ready for cleanup, the system can analyze poolside CCTV footage captured by cameras in real-time. If the footage shows loungers with towels and water bottles present, but no people or personal belongings are visible, the system can flag those loungers as "awaiting cleanup."
+If the "awaiting cleanup" status persists, the system should notify resort staff. This will ensure timely cleanup of vacated loungers and keep the poolside area tidy and ready for the next guests.
+
+![Awaiting Cleanup](./inference-sample/inference-normal-2.jpg)
+
+^ No personal belongings present, therefore guests may has left. Used towel and drinks are left behind. This should be categorized as a **awaiting cleanup** status.
+
+![Normal Status](./inference-sample/inference-normal.jpg)
+
+^ Guests may still be present, as glasses and slippers are visible. Therefore, this should be categorized as a **normal** status.
+
+#### Video footage
+
+<video width="960" height="540" controls>
+<source src="https://storage.googleapis.com/bucket-trial-run/video-inference-2.mp4" type="video/mp4">
+</video>
+
+^ There is a crowded area with guests and some personal belongings present. Several lounger seats are available for use. There are few towels and water bottles visible.
+Given these observations, the status should be categorized as **normal**.
 
 ## Object Recognition
 
@@ -53,11 +71,14 @@ FLUX with 1 promopt
 
 CCTV footage from poolside cameras on a summer rainy noon. Comfortable lounge chairs set next to the pool. Some lounger are neatly covered with fresh white towels, ready for guests, some personal belongings are placed on a small table next to the lounger, such as water bottles, sunglasses, also a pair of slippers are left on the floor. Lush palm trees and other tropical foliage frame the scene in the background. The pool water is crystal clear and inviting.
 
-
-
-
-
 ![YOLO-NAS](https://learnopencv.com/wp-content/uploads/2023/05/yolo-nas_results_roboflow_100_comparison.png)
 
-
 ![SDXL](https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0/resolve/main/comparison.png)
+
+## Inference Workflow
+
+<video width="960" height="540" controls>
+    <source src="https://storage.googleapis.com/bucket-trial-run/image-inference.mp4" type="video/mp4">
+</video>
+
+The simplified inference pipeline allows various components to be customized and run in parallel, including object detection, bounding box generation, labeling, and image cropping. This setup enables real-time visualization of inference results.
