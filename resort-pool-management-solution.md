@@ -64,7 +64,7 @@ including object detection, bounding box generation, labeling, and image croppin
 This setup enables real-time visualization of inference results.
 
 <video width="960" height="540" controls>
-    <source src="https://storage.googleapis.com/bucket-trial-run/image-inference.mp4" type="video/mp4">
+<source src="https://storage.googleapis.com/bucket-trial-run/inference-workflow.mp4" type="video/mp4">
 </video>
 
 ### 2.2 Inferencing Video Footage (Proof of Concept)
