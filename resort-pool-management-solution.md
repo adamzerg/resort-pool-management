@@ -1,15 +1,12 @@
 # Resort Pool Management Service
 
-## Background
+## Introduction
 
 In resort settings, a common issue arises where guests reserve pool chairs early in the morning, leaving others unable to use them for the rest of the day. To address this, we propose an optimization solution for the iconic pool area, ensuring equitable access to poolside amenities for all guests.
 
-## Scope of Works
+## System Overview
 
-Create an AI-driven solution for real-time monitoring of pool lounger usage. This service will empower resort staff to swiftly determine chair occupancy status, ensuring guest satisfaction and efficient resource allocation.
-
-## Concept Abstract
-
+Our solution focuses on real-time monitoring of pool lounger usage, empowering resort staff to swiftly determine chair occupancy status, thereby enhancing guest satisfaction and resource allocation.  
 As part of the standard poolside concierge service, a pool attendant assists guests by placing a fresh towel on each lounge chair. Therefore, a sun lounger that is covered with a towel can be considered "in service" and occupied by a guest.  
 When a guest has finished using the lounger, the resort staff needs to be notified in a timely manner. At that point, the staff can clean up any towels, water bottles, or other items left behind by the departing guest.  
 
@@ -30,7 +27,15 @@ If the "awaiting cleanup" status persists, the system should notify resort staff
 
 ![Train Object Detection](./flow-design/train-object-detection.svg)
 
-At this stage, object detection solutions is built with Roboflow's cloud-based platform efficiently, easy focusing on innovation rather than infrastructure management.
+The object detection solution is built using Roboflow's cloud-based platform, allowing for efficient focus on innovation rather than infrastructure management. We have established 12 classes for detecting essential objects, including:
+Person
+Towel
+Water bottle
+Lifeguard chair
+Lounger
+Lounger serving
+Lounger water drop
+Belongings (cloth, glasses, slippers, swimming ring, wristlet)
 
 ### 1.1 Data Sources
 
@@ -42,28 +47,11 @@ At this stage, object detection solutions is built with Roboflow's cloud-based p
 
 <img src="./flow-design/dataset-3.png" alt="dataset-3" width="960"/>
 
-### 1.2 Annotation
+### 1.2 Model Output
 
-Setting of 12 classes for detection of essential objects:  
-> person, towel, water-bottle  
-> lifeguard-chair, lounger, lounger-serving, lounger-water-drop  
-> belongings-cloth, belongings-glasses, belongings-slippers, belongings-swimming-ring, belongings-wristlet  
-
-### 1.3 Dataset Versioning
-
-<img src="./flow-design/dataset-all.png" alt="dataset-all" width="800"/>
-
-After resizing to 640x640 and augmenting with flipping and rotating, the number of images has increased to a total of 298, ready for training
-
-### 1.4 Training Processing
-
-<img src="https://learnopencv.com/wp-content/uploads/2023/05/yolo-nas_results_roboflow_100_comparison.png" alt="YOLO-NAS" width="600"/>
-
-Object detection model chosen is YOLO-NAS S with pre-train benchmark model: MS COCO v14-Best (Common Objects, 52.2% mAP)  
+After resizing images to 640x640 and augmenting them through flipping and rotating, the dataset increased to a total of 298 images, ready for training. We selected the YOLO-NAS S model with a pre-trained benchmark model (MS COCO v14-Best), achieving a mean Average Precision (mAP) of 71.1% after training, with no signs of overfitting.
 
 <img src="./flow-design/training-graphs.png" alt="training-graphs" width="800"/>
-
-20-45 minutes in each training, by the last training we have obtained a model with resulting mAP 71.1%, accuracy being enhanced meanwhile there appears no overfitting
 
 ## Work 2. Scalable Inference
 
@@ -93,7 +81,7 @@ Video inferencing sample code can be found here:
 Several lounger seats are available for use. There are few towels and water bottles visible.  
 Given these observations, the status should be categorized as **normal**.
 
-## Work 3. Generative AI for Data Augmentation
+## Work 3. Generative AI For Data Augmentation
 
 Generative AI models are employed to synthetically create diverse training images for object detection models. These generated images cover a wide range of scenarios, such as varying times of day, occupancy levels, and guest profiles. This approach helps to robustly train the object detection model without compromising privacy, as the generated images are not based on real-world data that could potentially reveal sensitive information.  
 
@@ -122,11 +110,10 @@ However, Flux.1 excels in generating high-quality images with superior detail an
 
 The ELO score performance (evaluation ranking) of the Flux.1[dev] (used in our case) compared to others
 
-## Work 4. Real-time Application
+## Work 4. Deployment Strategies For Real-time Application
 
-So far, we have developed a concept for a prototype that utilizes an object detection model, demonstrated its scalability through video inference, and explored how its performance can be enhanced with generative AI.
 As part of the service, we must ensure that we provide messages to our pool attendant regarding cleanup actions.
-Moving forward, we have two primary deployment strategies to consider: the use of a centralized console system or a client-edge deployment with surveillance cameras, allowing for individual communication with the messaging API.
+Moving forward, we have two primary deployment strategies to consider: the use of a centralized console system or a client-edge deployment with surveillance cameras, allowing for individual communication with the messaging API.  
 
 Serverless, over-the-air (OTA) to push upgrades. Object detection and rule processing are running on the edge (individual surveillance cameras).  
 Lightweight deployment, higher requirements for individual equipment's edge computing power.  
@@ -135,11 +122,16 @@ Lightweight deployment, higher requirements for individual equipment's edge comp
 
 Centralized with a single server backend, it collects video footage from each surveillance camera and processes object detection and messages in batches.  
 This setup is effective for managing rule changes and is highly customizable for message production per mobile user (such as pool attendants), but it is heavily dependent on video streaming networks.  
-Needless to say, with this structure, it is also possible to further develop large language models (LLMs) that can proactively adjust message rules according to information collected from other sources, beyond just the camera footage.  
+
+With this structure, it is also possible to further develop large language models (LLMs) that can proactively adjust message rules based on information collected from sources beyond just camera footage.    
 
 ![architect-centralized](./flow-design/flow-architect-centralized.svg)
 
-## Further Improvements
+## Conclusion
+
+In summary, we have developed a prototype utilizing an object detection model, demonstrated its scalability through video inference, and explored enhancements with generative AI. As we continue to refine our solution, we aim to ensure equitable access to poolside amenities while maintaining a clean and enjoyable environment for all guests. 
+
+## Further Enhancements
 
 The mentioned deployment strategies can be chosen depending on the actual available environment. Several improvements can be made to enhance the model's performance.  
 First, for enhancing data diversity, while the current dataset includes real and synthetically generated images, increasing the variety of scenarios—such as more real-life photos of our specific resort pools under different weather conditions and with varying guest behaviors—could significantly improve the model's robustness and accuracy.  
