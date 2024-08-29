@@ -32,7 +32,7 @@ If the "awaiting cleanup" status persists, the system should notify resort staff
 
 At this stage, object detection solutions is built with Roboflow's cloud-based platform efficiently, easy focusing on innovation rather than infrastructure management.
 
-### 1.1 Data source 
+### 1.1 Data Sources
 
 #### From real life photos
 
@@ -79,7 +79,7 @@ This setup enables real-time visualization of inference results.
     <source src="https://storage.googleapis.com/bucket-trial-run/image-inference.mp4" type="video/mp4">
 </video>
 
-### 2.2 Inferencing video footage (Proof of Concept)
+### 2.2 Inferencing Video Footage (Proof of Concept)
 
 Package potentially use: inference, supervision, cv2  
 Video inferencing sample code can be found here:
@@ -93,7 +93,7 @@ Video inferencing sample code can be found here:
 Several lounger seats are available for use. There are few towels and water bottles visible.  
 Given these observations, the status should be categorized as **normal**.
 
-## Work 3. Generative AI - Text to Images
+## Work 3. Generative AI for Data Augmentation
 
 Generative AI models are employed to synthetically create diverse training images for object detection models. These generated images cover a wide range of scenarios, such as varying times of day, occupancy levels, and guest profiles. This approach helps to robustly train the object detection model without compromising privacy, as the generated images are not based on real-world data that could potentially reveal sensitive information.  
 
@@ -122,11 +122,11 @@ However, Flux.1 excels in generating high-quality images with superior detail an
 
 The ELO score performance (evaluation ranking) of the Flux.1[dev] (used in our case) compared to others
 
-## Work 4. Proposed Solution Architect
+## Work 4. Real-time Application
 
 So far, we have developed a concept for a prototype that utilizes an object detection model, demonstrated its scalability through video inference, and explored how its performance can be enhanced with generative AI.
+As part of the service, we must ensure that we provide messages to our pool attendant regarding cleanup actions.
 Moving forward, we have two primary deployment strategies to consider: the use of a centralized console system or a client-edge deployment with surveillance cameras, allowing for individual communication with the messaging API.
-Remember as part of the service, we must ensure that we provide messages to our pool attendant regarding cleanup actions.
 
 Serverless, over-the-air (OTA) to push upgrades. Object detection and rule processing are running on the edge (individual surveillance cameras).  
 Lightweight deployment, higher requirements for individual equipment's edge computing power.  
@@ -138,3 +138,11 @@ This setup is effective for managing rule changes and is highly customizable for
 Needless to say, with this structure, it is also possible to further develop large language models (LLMs) that can proactively adjust message rules according to information collected from other sources, beyond just the camera footage.  
 
 ![architect-centralized](./flow-design/flow-architect-centralized.svg)
+
+## Further Improvements
+
+The mentioned deployment strategies can be chosen depending on the actual available environment. Several improvements can be made to enhance the model's performance.  
+First, for enhancing data diversity, while the current dataset includes real and synthetically generated images, increasing the variety of scenarios—such as more real-life photos of our specific resort pools under different weather conditions and with varying guest behaviors—could significantly improve the model's robustness and accuracy.  
+Second, fine-tuning hyperparameters through continuous experimentation during training could optimize the model's performance, potentially increasing the mean Average Precision (mAP) score beyond the current 71.1%. Additionally, integrating data from other sensors, such as temperature and humidity, could provide more context for the model, thereby improving its decision-making capabilities regarding lounger status and guest comfort.  
+Implementing a real-time feedback loop where pool attendants can provide input on the model's predictions would help refine its accuracy over time, allowing it to learn from real-world usage. Expanding the object classes for detection by adding more categories, such as different types of personal belongings or pool equipment, could enhance the model's utility and provide more detailed insights into poolside usage.  
+Moreover, improving edge computing capabilities is essential, as the deployment relies heavily on edge computing power; optimizing the model for lightweight deployment could enhance processing speed and reduce dependency on video streaming networks. Finally, developing a more intuitive user interface for pool attendants would facilitate better interaction with the system, allowing for quicker responses to notifications and more efficient management of pool resources.
