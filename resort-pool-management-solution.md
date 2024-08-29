@@ -96,7 +96,7 @@ Model: flux1-dev-fp8.safetensors
 Clip: t5xxl_fp16.safetensors, clip_l.safetensors  
 VAE: ae.safetensors  
 KSampler: euler  
-Sample rompt: CCTV footage from poolside cameras on a summer rainy noon. Comfortable lounge chairs set next to the pool. Some lounger are neatly covered with fresh white towels, ready for guests, some personal belongings are placed on a small table next to the lounger, such as water bottles, sunglasses, also a pair of slippers are left on the floor. Lush palm trees and other tropical foliage frame the scene in the background. The pool water is crystal clear and inviting.
+Sample prompt in use: CCTV footage from poolside cameras on a summer rainy noon. Comfortable lounge chairs set next to the pool. Some lounger are neatly covered with fresh white towels, ready for guests, some personal belongings are placed on a small table next to the lounger, such as water bottles, sunglasses, also a pair of slippers are left on the floor. Lush palm trees and other tropical foliage frame the scene in the background. The pool water is crystal clear and inviting.
 
 Sample json can be found here:
 [flux1-workflow](https://raw.githubusercontent.com/adamzerg/resort-pool-management/main/flux1-workflow.json)
@@ -123,18 +123,26 @@ Lightweight deployment, higher requirements for individual equipment's edge comp
 Centralized with a single server backend, it collects video footage from each surveillance camera and processes object detection and messages in batches.  
 This setup is effective for managing rule changes and is highly customizable for message production per mobile user (such as pool attendants), but it is heavily dependent on video streaming networks.  
 
-With this structure, it is also possible to further develop large language models (LLMs) that can proactively adjust message rules based on information collected from sources beyond just camera footage.    
+With this structure, it is also possible to further develop large language models (LLMs) that can proactively adjust message rules based on information collected from sources beyond just camera footage.
 
 ![architect-centralized](./flow-design/flow-architect-centralized.svg)
 
-## Conclusion
+## More Thoughts
 
-In summary, we have developed a prototype utilizing an object detection model, demonstrated its scalability through video inference, and explored enhancements with generative AI. As we continue to refine our solution, we aim to ensure equitable access to poolside amenities while maintaining a clean and enjoyable environment for all guests. 
+In conclusion, our prototype for resort pool management, powered by an advanced object detection model, has shown promising scalability and adaptability through video inference and generative AI enhancements. The deployment strategies we’ve outlined can be tailored to fit various environments, ensuring optimal performance.  
+To further elevate the model's effectiveness, several key improvements can be pursued:  
 
-## Further Enhancements
+1. **Enhancing Data Diversity**: By incorporating a broader range of real-life images of our resort pools under varying weather conditions, we can significantly bolster the model's robustness and accuracy.
+2. **Optimizing Hyperparameters**: Continuous experimentation during the training phase can fine-tune hyperparameters, potentially raising the mean Average Precision (mAP) score beyond the current 71.1%.  
+3. **Improving Edge Computing Capabilities**: Optimizing the model for lightweight deployment will enhance processing speed and reduce reliance on video streaming networks, which is crucial for real-time applications.  
+4. **Integrating Additional Sensor Data**: Incorporating data from other sensors, such as temperature and humidity, will provide valuable context, enhancing the model's decision-making regarding lounger status and guest comfort.  
+5. **Implementing a Real-Time Feedback Loop**: Enabling pool attendants to provide input on the model's predictions will refine its accuracy over time, ensuring it evolves with user needs.  
 
-The mentioned deployment strategies can be chosen depending on the actual available environment. Several improvements can be made to enhance the model's performance.  
-First, for enhancing data diversity, while the current dataset includes real and synthetically generated images, increasing the variety of scenarios—such as more real-life photos of our specific resort pools under different weather conditions and with varying guest behaviors—could significantly improve the model's robustness and accuracy.  
-Second, fine-tuning hyperparameters through continuous experimentation during training could optimize the model's performance, potentially increasing the mean Average Precision (mAP) score beyond the current 71.1%. Additionally, integrating data from other sensors, such as temperature and humidity, could provide more context for the model, thereby improving its decision-making capabilities regarding lounger status and guest comfort.  
-Implementing a real-time feedback loop where pool attendants can provide input on the model's predictions would help refine its accuracy over time, allowing it to learn from real-world usage. Expanding the object classes for detection by adding more categories, such as different types of personal belongings or pool equipment, could enhance the model's utility and provide more detailed insights into poolside usage.  
-Moreover, improving edge computing capabilities is essential, as the deployment relies heavily on edge computing power; optimizing the model for lightweight deployment could enhance processing speed and reduce dependency on video streaming networks. Finally, developing a more intuitive user interface for pool attendants would facilitate better interaction with the system, allowing for quicker responses to notifications and more efficient management of pool resources.
+Aside of modelling approach, several strategies can also be implemented based on successful practices observed at various resorts:
+
+1. **Time Limits on Unattended Chairs**: Establish a policy where personal items left on loungers for extended periods are marked with a time sticker. If the chair remains unoccupied for a specified duration, such as 30 to 40 minutes, resort staff should remove the items and hold them for safekeeping. This approach allowing other guests to know when loungers will become available.
+2. **Clear Communication**: Inform guests of the policies regarding chair reservations and the consequences of leaving items unattended. This can be done through signage around the pool area and announcements made by staff. Clear communication helps set expectations and reduces misunderstandings among guests.
+3. **Reservation Systems**: Consider implementing a reservation system where guests can book loungers in advance for a limited time. This could include an upcharge for guaranteed seating, helping to manage demand while providing guests with the option to secure a spot without needing to arrive at dawn.
+4. **Encouraging Fair Use**: Promote a culture of fairness among guests by encouraging them to use chairs only when they are present. For example, reward the guests if they leave their chairs by the agreed time.
+
+By focusing on these enhancements, we can ensure that our resort pool management service not only meets but exceeds expectations, providing a seamless and enjoyable experience for both guests and staff.
